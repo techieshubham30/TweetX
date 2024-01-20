@@ -5,18 +5,30 @@ import { FirebaseContext } from "../../context/Firebase";
 const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isSignup, setIsSignup] = useState(true);
 
-  const { signupUserWithEmailAndPassword } = useContext(FirebaseContext);
+  const { signupUserWithEmailAndPassword, signinUserWithEmailAndPassword } =
+    useContext(FirebaseContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    signupUserWithEmailAndPassword(email, password);
+    if (isSignup) {
+      // If in signup mode
+      signupUserWithEmailAndPassword(email, password);
+    } else {
+      // If in login mode
+      signinUserWithEmailAndPassword(email, password);
+    }
+  };
+
+  const toggleAuthMode = () => {
+    setIsSignup((prevMode) => !prevMode);
   };
 
   return (
     <Container fluid className="d-flex align-items-center min-vh-100">
       <Row className="w-100">
-        {/* Left side - Signup Form */}
+        {/* Left side - Signup/Login Form */}
         <Col
           md={6}
           className="d-flex align-items-center"
@@ -44,8 +56,16 @@ const Auth = () => {
             </Form.Group>
 
             <Button variant="primary" type="submit">
-              Signin
+              {isSignup ? "Sign Up" : "Sign In"}
             </Button>
+            <p className="mt-3 d-flex align-items-center">
+              {isSignup
+                ? "Already have an account? "
+                : "Don't have an account? "}
+              <Button variant="link" className="p-0" onClick={toggleAuthMode}>
+                {isSignup ? "Sign In" : "Sign Up"}
+              </Button>
+            </p>
           </Form>
         </Col>
 
