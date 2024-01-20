@@ -7,19 +7,22 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Auth from "./pages/AuthPage/Auth";
 import Home from "./pages/HomePage/HomePage";
 import FirebaseProvider from "./context/Firebase";
+import PrivateRoute from "./route/PrivateRoute";
 
 const appRouter = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
-  },
-  {
-    path: "/auth",
-    element: <Auth />,
-  },
-  {
-    path: "/home",
-    element: <Home />,
+    element: <PrivateRoute />,
+    children: [
+      {
+        path: "/auth",
+        element: <Auth />,
+      },
+      {
+        path: "/home",
+        element: <Home />,
+      },
+    ],
   },
 ]);
 

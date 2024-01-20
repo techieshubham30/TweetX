@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { FirebaseContext } from "../../context/Firebase";
+import { useNavigate } from "react-router-dom";
 
 const Auth = () => {
   const [email, setEmail] = useState("");
@@ -9,6 +10,7 @@ const Auth = () => {
 
   const { signupUserWithEmailAndPassword, signinUserWithEmailAndPassword } =
     useContext(FirebaseContext);
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -17,7 +19,16 @@ const Auth = () => {
       signupUserWithEmailAndPassword(email, password);
     } else {
       // If in login mode
-      signinUserWithEmailAndPassword(email, password);
+      signinUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          alert("Login Successfull");
+          navigate("/home");
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          alert(errorMessage);
+        });
     }
   };
 

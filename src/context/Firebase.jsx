@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useState, useEffect } from "react";
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
@@ -23,6 +23,8 @@ const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);
 
 const FirebaseProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+
   const signupUserWithEmailAndPassword = (email, password) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
@@ -31,27 +33,43 @@ const FirebaseProvider = ({ children }) => {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorMessage);
       });
   };
 
-  const signinUserWithEmailAndPassword = (email, password) => {
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        alert("Login Successfull");
-        const user = userCredential.user;
-        console.log(user);
+  const signinUserWithEmailAndPassword = async (email, password) => {
+    return await signInWithEmailAndPassword(auth, email, password);
+  };
+
+  const logout = () => {
+    signOut(auth)
+      .then(() => {
+        alert("Logout Successful");
+        setUser(null);
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        alert(errorMessage);
+        console.error("Error during logout:", error);
       });
   };
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+
+    // Clean up the subscription when the component unmounts
+    return () => unsubscribe();
+  }, []);
+
+  console.log(user);
 
   return (
     <FirebaseContext.Provider
-      value={{ signupUserWithEmailAndPassword, signinUserWithEmailAndPassword }}
+      value={{
+        signupUserWithEmailAndPassword,
+        signinUserWithEmailAndPassword,
+        logout,
+        user,
+      }}
     >
       {children}
     </FirebaseContext.Provider>
