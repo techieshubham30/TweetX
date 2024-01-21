@@ -8,6 +8,8 @@ import Auth from "./pages/AuthPage/Auth";
 import Home from "./pages/HomePage/HomePage";
 import FirebaseProvider from "./context/Firebase";
 import PrivateRoute from "./route/PrivateRoute";
+import User from "./pages/UserPage/User";
+import Profile from "./pages/ProfilePage/Profile";
 
 const appRouter = createBrowserRouter([
   {
@@ -15,14 +17,24 @@ const appRouter = createBrowserRouter([
     element: <PrivateRoute />,
     children: [
       {
-        path: "/auth",
-        element: <Auth />,
-      },
-      {
         path: "/home",
         element: <Home />,
+        children: [
+          {
+            path: "users",
+            element: <User />,
+          },
+          {
+            path: "profile",
+            element: <Profile />,
+          },
+        ],
       },
     ],
+  },
+  {
+    path: "/auth",
+    element: <Auth />,
   },
 ]);
 

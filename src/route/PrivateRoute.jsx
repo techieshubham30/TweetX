@@ -12,7 +12,7 @@ const PrivateRoute = () => {
     }
   }, [user]);
 
-  return user ? <Outlet /> : <Navigate to="/auth" />;
+  return user ? <Outlet /> : <Navigate to="/auth" replace />;
 };
 
 export default PrivateRoute;
