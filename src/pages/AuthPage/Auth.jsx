@@ -7,6 +7,7 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSignup, setIsSignup] = useState(true);
+  const [name, setName] = useState("");
 
   const { signupUserWithEmailAndPassword, signinUserWithEmailAndPassword } =
     useContext(FirebaseContext);
@@ -16,7 +17,7 @@ const Auth = () => {
     e.preventDefault();
     if (isSignup) {
       // If in signup mode
-      signupUserWithEmailAndPassword(email, password);
+      signupUserWithEmailAndPassword(email, password, name);
     } else {
       // If in login mode
       signinUserWithEmailAndPassword(email, password)
@@ -46,6 +47,17 @@ const Auth = () => {
           style={{ paddingLeft: "4rem" }}
         >
           <Form onSubmit={handleSubmit}>
+            {isSignup && (
+              <Form.Group className="mb-3" controlId="formBasicName">
+                <Form.Label>Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </Form.Group>
+            )}
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
               <Form.Control

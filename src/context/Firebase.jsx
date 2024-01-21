@@ -8,6 +8,16 @@ import {
   signOut,
 } from "firebase/auth";
 
+import {
+  collection,
+  addDoc,
+  getFirestore,
+  doc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
+
 export const FirebaseContext = createContext(null);
 
 const firebaseConfig = {
@@ -21,19 +31,47 @@ const firebaseConfig = {
 
 const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);
+const firestore = getFirestore(firebaseApp);
 
 const FirebaseProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("user-info"))
+  );
+  const [userProfileData, setUserProfileData] = useState(null);
 
-  const signupUserWithEmailAndPassword = (email, password) => {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        alert("Signup Successfull");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
+  const signupUserWithEmailAndPassword = async (email, password, name) => {
+    try {
+      // Create user in Authentication
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const newUser = userCredential.user;
+
+      // Add user data to Firestore
+      const userCollection = collection(firestore, "users");
+      const userDocRef = await addDoc(userCollection, {
+        uid: newUser.uid,
+        userName: name,
+        email: newUser.email,
+        profilePic: "",
+        followers: [],
+        following: [],
+        posts: [],
+        createdAt: Date.now(),
+        // Add any other user-related data you want to store in Firestore
       });
+
+      localStorage.setItem("user-info", JSON.stringify(userDocRef));
+
+      alert("Signup Successful");
+      console.log("User added to Firestore with ID: ", userDocRef.id);
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.error("Error during signup:", errorCode, errorMessage);
+    }
   };
 
   const signinUserWithEmailAndPassword = async (email, password) => {
@@ -45,6 +83,7 @@ const FirebaseProvider = ({ children }) => {
       .then(() => {
         alert("Logout Successful");
         setUser(null);
+        localStorage.removeItem("user-info");
       })
       .catch((error) => {
         console.error("Error during logout:", error);
@@ -52,15 +91,27 @@ const FirebaseProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      console.log(user);
       setUser(user);
+      if (user) {
+        const userCollection = collection(firestore, "users");
+        const userQuery = query(userCollection, where("uid", "==", user.uid));
+        const userSnapshot = await getDocs(userQuery);
+
+        if (!userSnapshot.empty) {
+          userSnapshot.forEach((doc) => {
+            const userData = doc.data();
+            console.log(userData);
+            setUserProfileData(userData); // Update userData state
+          });
+        }
+      }
     });
 
     // Clean up the subscription when the component unmounts
     return () => unsubscribe();
   }, []);
-
-  console.log(user);
 
   return (
     <FirebaseContext.Provider
@@ -69,6 +120,8 @@ const FirebaseProvider = ({ children }) => {
         signinUserWithEmailAndPassword,
         logout,
         user,
+        userProfileData,
+        firestore,
       }}
     >
       {children}
