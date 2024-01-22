@@ -18,6 +18,8 @@ const ProfileHeader = () => {
     setShowEditProfileModal(false);
   };
 
+  console.log(userProfileData);
+
   return (
     <div>
       {userProfileData && (

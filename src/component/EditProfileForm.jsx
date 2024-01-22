@@ -49,7 +49,7 @@ const EditProfileForm = ({ show, handleClose }) => {
 
       if (!userSnapshot.empty) {
         const userDocRef = userSnapshot.docs[0].ref;
-        await updateDoc(userDocRef, { userName: newUserName });
+        await updateDoc(userDocRef, { userName: newUserName, profilePic: URL });
 
         // If needed, you can also update the local state here
         setUserProfileData((prevData) => ({

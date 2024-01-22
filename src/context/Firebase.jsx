@@ -51,6 +51,7 @@ const FirebaseProvider = ({ children }) => {
         password
       );
       const newUser = userCredential.user;
+      console.log(newUser);
 
       // Add user data to Firestore
       const userCollection = collection(firestore, "users");
