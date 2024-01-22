@@ -18,6 +18,8 @@ import {
   where,
 } from "firebase/firestore";
 
+import { getStorage } from "firebase/storage";
+
 export const FirebaseContext = createContext(null);
 
 const firebaseConfig = {
@@ -32,6 +34,7 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);
 const firestore = getFirestore(firebaseApp);
+const storage = getStorage(firebaseApp);
 
 const FirebaseProvider = ({ children }) => {
   const [user, setUser] = useState(
@@ -75,7 +78,40 @@ const FirebaseProvider = ({ children }) => {
   };
 
   const signinUserWithEmailAndPassword = async (email, password) => {
-    return await signInWithEmailAndPassword(auth, email, password);
+    // return await signInWithEmailAndPassword(auth, email, password);
+    try {
+      // Sign in user
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      const user = userCredential.user;
+
+      // Fetch user data from Firestore
+      const userCollection = collection(firestore, "users");
+      const userQuery = query(userCollection, where("uid", "==", user.uid));
+      const userSnapshot = await getDocs(userQuery);
+
+      if (!userSnapshot.empty) {
+        // Get the first document (should be only one matching UID)
+        const userData = userSnapshot.docs[0].data();
+        console.log(userData);
+
+        // Save user information to localStorage
+        localStorage.setItem("user-info", JSON.stringify(userData));
+      }
+
+      alert("Login Successful");
+
+      return userCredential;
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      alert(errorMessage);
+      throw error;
+    }
   };
 
   const logout = () => {
@@ -92,7 +128,7 @@ const FirebaseProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      console.log(user);
+      // console.log(user);
       setUser(user);
       if (user) {
         const userCollection = collection(firestore, "users");
@@ -102,7 +138,7 @@ const FirebaseProvider = ({ children }) => {
         if (!userSnapshot.empty) {
           userSnapshot.forEach((doc) => {
             const userData = doc.data();
-            console.log(userData);
+            // console.log(userData);
             setUserProfileData(userData); // Update userData state
           });
         }
@@ -122,6 +158,8 @@ const FirebaseProvider = ({ children }) => {
         user,
         userProfileData,
         firestore,
+        setUserProfileData,
+        storage,
       }}
     >
       {children}
