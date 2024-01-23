@@ -12,11 +12,13 @@ import {
   where,
 } from "firebase/firestore";
 import { FirebaseContext } from "../../context/Firebase";
+import Followers from "../../component/Followers";
 
 const Profile = () => {
   return (
     <div>
       <ProfileHeader />
+      <Followers />
     </div>
   );
 };
