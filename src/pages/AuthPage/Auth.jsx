@@ -16,6 +16,12 @@ const Auth = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (isSignup && (!name || !email || !password)) {
+      alert("Please fill in all fields for sign up.");
+      return;
+    }
+
     if (isSignup) {
       // If in signup mode
       signupUserWithEmailAndPassword(email, password, name);
