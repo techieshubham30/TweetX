@@ -21,23 +21,31 @@ const ProfileHeader = () => {
   console.log(userProfileData);
 
   return (
-    <div>
+    <div className="profile-header-wrapper">
       {userProfileData && (
         <>
-          <Image
-            src={
-              userProfileData.profilePic ||
-              "https://pbs.twimg.com/profile_images/1592810849521266689/mOOLdO15_400x400.jpg"
-            }
-            alt="Profile Avatar"
-            roundedCircle
-            style={{ width: "100px", height: "100px" }}
-          />
-          <h1>{userProfileData.userName}</h1>
-          <div>
-            <p>Posts: {userProfileData.posts.length}</p>
-            <p>Followers: {userProfileData.followers.length}</p>
-            <p>Following: {userProfileData.following.length}</p>
+          <div className="d-flex align-items-center gap-5">
+            <Image
+              src={
+                userProfileData.profilePic ||
+                "https://pbs.twimg.com/profile_images/1592810849521266689/mOOLdO15_400x400.jpg"
+              }
+              alt="Profile Avatar"
+              roundedCircle
+              style={{
+                width: "105px",
+                height: "105px",
+                border: "0.3px solid gray",
+              }}
+            />
+            <div className="d-flex flex-column">
+              <h1>{userProfileData.userName}</h1>
+              <div className="d-flex gap-3">
+                <p>Posts: {userProfileData.posts.length}</p>
+                <p>Followers: {userProfileData.followers.length}</p>
+                <p>Following: {userProfileData.following.length}</p>
+              </div>
+            </div>
           </div>
 
           {isCurrentUserProfile && (

@@ -17,23 +17,40 @@ const UserItem = ({ user, onFollowClick }) => {
   console.log(user);
 
   return (
-    <Card style={{ width: "18rem", marginBottom: "20px" }}>
-      <Card.Img
-        variant="top"
-        src={user.profilePic}
-        alt="User Avatar"
-        className="rounded-circle"
-        style={{ width: "100px", height: "100px" }}
-      />
+    <Card style={{ marginBottom: "20px", padding: "1rem" }}>
+      <div
+        className="d-flex gap-5 align-items-center  "
+        style={{ justifyContent: "space-between" }}
+      >
+        <div className="d-flex justify-content-space-between align-items-center gap-3">
+          <Card.Img
+            variant="top"
+            src={user.profilePic}
+            alt="User Avatar"
+            className="rounded-circle"
+            style={{
+              width: "100px",
+              height: "100px",
+              border: "0.5px solid gray",
+            }}
+          />
+
+          <Card.Title>{user.userName}</Card.Title>
+        </div>
+
+        <div>
+          <Button onClick={() => onFollowClick(user)}>
+            {isFollowing ? "Unfollow" : "Follow"}
+          </Button>
+        </div>
+      </div>
+
       <Card.Body>
-        <Card.Title>{user.userName}</Card.Title>
+        <div style={{ display: "flex" }}></div>
         <Card.Text>
           Followers: {user.followers.length} | Following:{" "}
           {user.following.length}
         </Card.Text>
-        <Button onClick={() => onFollowClick(user)}>
-          {isFollowing ? "Unfollow" : "Follow"}
-        </Button>
       </Card.Body>
     </Card>
   );

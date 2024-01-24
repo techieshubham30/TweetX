@@ -8,6 +8,7 @@ import Following from "../../component/Following";
 import UserPosts from "../../component/UserPosts";
 import { fetchUserPosts } from "../../utils/fetchUserPosts";
 import { FirebaseContext } from "../../context/Firebase";
+import "../.././commonStyle.css";
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState("followers");
@@ -28,7 +29,7 @@ const Profile = () => {
   }, [firestore, userProfileData]);
 
   return (
-    <div>
+    <div className=" d-flex align-items-center flex-column">
       <ProfileHeader />
       <Tabs
         id="profileTabs"

@@ -1,0 +1,49 @@
+.auth-btn,
+.write-post {
+  background-color: #0b58ca;
+  border-style: none;
+  padding: 0.5em 1.5em 0.5em 1.5em;
+}
+
+.auth-input {
+  border-radius: 0.5rem;
+}
+
+.brand {
+  color: #0b58ca;
+}
+
+.custom-col {
+  padding-left: 4rem;
+}
+
+.auth-form {
+  width: 70%;
+}
+
+.profile-header-wrapper {
+  width: 50%;
+}
+
+.user-page-container {
+  width: 40%;
+}
+
+@media (max-width: 576px) {
+  .custom-col {
+    padding-left: 1rem;
+  }
+
+  .auth-form {
+    width: 100%;
+  }
+
+  .profile-header-wrapper {
+    width: 100%;
+  }
+
+  .user-page-container {
+    width: 100%;
+    padding: 0 1rem 0 1rem;
+  }
+}

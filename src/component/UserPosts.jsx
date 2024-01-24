@@ -65,8 +65,7 @@ const UserPosts = ({ userPosts, showAllPosts }) => {
   return (
     <Container>
       <Row className="mt-4">
-        <Col md={{ span: 6, offset: 3 }}>
-          <h2>{showAllPosts ? "All Posts" : "Your Posts"}</h2>
+        <Col md={{ span: 6 }} style={{ width: "100%" }}>
           {filteredPosts.length === 0 ? (
             <p>
               No posts yet.{" "}
@@ -74,10 +73,17 @@ const UserPosts = ({ userPosts, showAllPosts }) => {
             </p>
           ) : (
             filteredPosts.map((post) => (
-              <Card key={post.postId} className="mb-3">
+              <Card
+                key={post.postId}
+                className="mb-3"
+                style={{ width: "100%" }}
+              >
                 <Card.Body>
-                  <Row>
-                    <Col>
+                  <Col>
+                    <div
+                      className="d-flex justify-content-space-between align-items-center gap-3"
+                      style={{ marginBottom: "0.5rem" }}
+                    >
                       <img
                         src={userProfileData.profilePic}
                         alt="Profile Pic"
@@ -87,11 +93,12 @@ const UserPosts = ({ userPosts, showAllPosts }) => {
                           borderRadius: "50%",
                         }}
                       />
-                    </Col>
-                    <Col>
-                      <Card.Text>{post.text}</Card.Text>
-                    </Col>
-                  </Row>
+                      <Card.Title>{userProfileData.userName}</Card.Title>
+                    </div>
+                  </Col>
+                  <Col>
+                    <Card.Text>{post.text}</Card.Text>
+                  </Col>
                 </Card.Body>
               </Card>
             ))

@@ -2,6 +2,7 @@ import { Nav, Navbar, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { FirebaseContext } from "../context/Firebase";
+import ".././commonStyle.css";
 
 const Navigation = () => {
   const { logout } = useContext(FirebaseContext);
@@ -11,12 +12,19 @@ const Navigation = () => {
     alert("User logged out");
   };
   return (
-    <Navbar bg="light" expand="lg">
-      <Navbar.Brand as={Link} to="/">
+    <Navbar
+      bg="light"
+      expand="lg"
+      style={{ padding: "1rem", marginBottom: "4rem" }}
+    >
+      <Navbar.Brand as={Link} to="/" className="brand">
         Tweetx
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
+      <Navbar.Collapse
+        id="basic-navbar-nav"
+        className="d-flex justify-content-between"
+      >
         <Nav className="mr-auto">
           {" "}
           <Nav.Link as={Link} to="feed">
@@ -29,11 +37,18 @@ const Navigation = () => {
             Profile
           </Nav.Link>
         </Nav>
-        <Nav className="ml-auto">
-          <Button variant="outline-secondary" onClick={handleLogout}>
-            Logout
-          </Button>
-        </Nav>
+        <Button
+          variant="outline-secondary"
+          onClick={handleLogout}
+          style={{
+            marginRight: "1rem",
+            backgroundColor: "#0b58ca",
+            color: "white",
+            borderRadius: "none",
+          }}
+        >
+          Logout
+        </Button>
       </Navbar.Collapse>
     </Navbar>
   );

@@ -72,6 +72,7 @@ import PostForm from "../../component/PostForm";
 import { fetchUserPosts } from "../../utils/fetchUserPosts";
 import UserPosts from "../../component/UserPosts";
 import { fetchFollowedUsersPosts } from "../../utils/fetchFollowedUsersPosts";
+import "../../commonStyle.css";
 
 const Feed = () => {
   const { firestore, userProfileData } = useContext(FirebaseContext);
@@ -103,8 +104,11 @@ const Feed = () => {
     <Container>
       <Row className="mt-4">
         <Col md={{ span: 6, offset: 3 }}>
-          <h2>Your Feed</h2>
-          <Button variant="primary" onClick={handleShowModal}>
+          <Button
+            variant="primary"
+            onClick={handleShowModal}
+            className="write-post"
+          >
             Write
           </Button>
 

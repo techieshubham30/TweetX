@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { FirebaseContext } from "../../context/Firebase";
 import { useNavigate } from "react-router-dom";
+import "../.././commonStyle.css";
 
 const Auth = () => {
   const [email, setEmail] = useState("");
@@ -40,13 +41,8 @@ const Auth = () => {
   return (
     <Container fluid className="d-flex align-items-center min-vh-100">
       <Row className="w-100">
-        {/* Left side - Signup/Login Form */}
-        <Col
-          md={6}
-          className="d-flex align-items-center"
-          style={{ paddingLeft: "4rem" }}
-        >
-          <Form onSubmit={handleSubmit}>
+        <Col md={6} className="d-flex align-items-center custom-col">
+          <Form onSubmit={handleSubmit} className="auth-form">
             {isSignup && (
               <Form.Group className="mb-3" controlId="formBasicName">
                 <Form.Label>Name</Form.Label>
@@ -55,6 +51,7 @@ const Auth = () => {
                   placeholder="Enter Name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                  className="auth-input"
                 />
               </Form.Group>
             )}
@@ -65,6 +62,7 @@ const Auth = () => {
                 placeholder="Enter email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                className="auth-input"
               />
             </Form.Group>
 
@@ -75,17 +73,20 @@ const Auth = () => {
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                className="auth-input"
               />
             </Form.Group>
 
-            <Button variant="primary" type="submit">
-              {isSignup ? "Sign Up" : "Sign In"}
-            </Button>
+            <div className="d-flex justify-content-end">
+              <Button variant="primary" type="submit" className="auth-btn ">
+                {isSignup ? "Sign Up" : "Sign In"}
+              </Button>
+            </div>
             <p className="mt-3 d-flex align-items-center">
               {isSignup
                 ? "Already have an account? "
                 : "Don't have an account? "}
-              <Button variant="link" className="p-0" onClick={toggleAuthMode}>
+              <Button variant="link" className="p-0 " onClick={toggleAuthMode}>
                 {isSignup ? "Sign In" : "Sign Up"}
               </Button>
             </p>

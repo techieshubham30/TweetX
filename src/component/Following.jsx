@@ -51,7 +51,6 @@ const Following = () => {
 
   return (
     <div>
-      <h2>Following</h2>
       {users.map((following) => (
         <UserItem
           key={following.userId}
