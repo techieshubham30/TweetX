@@ -5,13 +5,27 @@ import ProfileHeader from "../../component/ProfileHeader";
 import { Tab, Tabs } from "react-bootstrap";
 import Followers from "../../component/Followers";
 import Following from "../../component/Following";
+import UserPosts from "../../component/UserPosts";
+import { fetchUserPosts } from "../../utils/fetchUserPosts";
+import { FirebaseContext } from "../../context/Firebase";
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState("followers");
+  const [userPosts, setUserPosts] = useState([]);
+
+  const { firestore, userProfileData } = useContext(FirebaseContext);
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetchUserPosts(firestore, userProfileData, setUserPosts);
+    };
+
+    fetchData();
+  }, [firestore, userProfileData]);
 
   return (
     <div>
@@ -26,6 +40,9 @@ const Profile = () => {
         </Tab>
         <Tab eventKey="following" title="Following">
           <Following />
+        </Tab>
+        <Tab eventKey="posts" title="Posts">
+          <UserPosts userPosts={userPosts} />
         </Tab>
       </Tabs>
     </div>

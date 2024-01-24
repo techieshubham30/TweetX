@@ -19,7 +19,9 @@ const Navigation = () => {
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
           {" "}
-          {/* Change ml-auto to mr-auto */}
+          <Nav.Link as={Link} to="feed">
+            Feed
+          </Nav.Link>
           <Nav.Link as={Link} to="users">
             Users
           </Nav.Link>

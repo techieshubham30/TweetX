@@ -10,6 +10,7 @@ import FirebaseProvider from "./context/Firebase";
 import PrivateRoute from "./route/PrivateRoute";
 import User from "./pages/UserPage/User";
 import Profile from "./pages/ProfilePage/Profile";
+import Feed from "./pages/FeedPage/Feed";
 
 const appRouter = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const appRouter = createBrowserRouter([
         path: "/home",
         element: <Home />,
         children: [
+          {
+            path: "feed",
+            element: <Feed />,
+          },
           {
             path: "users",
             element: <User />,
