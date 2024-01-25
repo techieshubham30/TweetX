@@ -54,13 +54,15 @@ const User = () => {
   return (
     <div className="d-flex justify-content-center">
       <div className="d-flex flex-column user-page-container">
-        {users.map((user) => (
-          <UserItem
-            key={user.userId}
-            user={user}
-            onFollowClick={handleFollowUnfollow}
-          />
-        ))}
+        {users
+          .filter((user) => user.uid !== userProfileData.uid)
+          .map((user) => (
+            <UserItem
+              key={user.userId}
+              user={user}
+              onFollowClick={handleFollowUnfollow}
+            />
+          ))}
       </div>
     </div>
   );

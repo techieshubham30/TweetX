@@ -18,7 +18,7 @@ const EditProfileForm = ({ show, handleClose }) => {
   const { userProfileData, firestore, setUserProfileData, storage } =
     useContext(FirebaseContext);
 
-  const [newUserName, setNewUserName] = useState("");
+  const [newUserName, setNewUserName] = useState(userProfileData.userName);
   const [profilePicFile, setProfilePicFile] = useState(null);
 
   const fileRef = useRef(null);
