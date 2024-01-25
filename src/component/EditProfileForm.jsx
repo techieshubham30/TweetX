@@ -3,6 +3,8 @@ import React, { useState, useContext, useRef } from "react";
 import { FirebaseContext } from "../context/Firebase";
 import { Modal, Form, Button } from "react-bootstrap";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import {
   doc,
@@ -28,6 +30,8 @@ const EditProfileForm = ({ show, handleClose }) => {
 
   const handleSave = async () => {
     try {
+      const savingToast = toast.info("Saving profile...", { autoClose: false });
+
       const storageRef = ref(storage, `profilePics/${userProfileData.uid}`);
       let URL = "";
 
@@ -58,6 +62,9 @@ const EditProfileForm = ({ show, handleClose }) => {
           profilePic: URL || userProfileData.profilePic,
         }));
 
+        toast.dismiss(savingToast); // Dismiss the "Saving profile..." toast
+        toast.success("Profile saved successfully!");
+
         handleClose();
       } else {
         console.error("User document not found.");
@@ -65,7 +72,7 @@ const EditProfileForm = ({ show, handleClose }) => {
       }
     } catch (error) {
       console.error("Error updating profile:", error);
-      // Handle the error or provide feedback to the user
+      toast.error("Failed to save profile. Please try again.");
     }
   };
 

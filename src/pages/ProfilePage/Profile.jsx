@@ -10,6 +10,9 @@ import { fetchUserPosts } from "../../utils/fetchUserPosts";
 import { FirebaseContext } from "../../context/Firebase";
 import "../.././commonStyle.css";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const Profile = () => {
   const [activeTab, setActiveTab] = useState("followers");
   const [userPosts, setUserPosts] = useState([]);
@@ -46,6 +49,7 @@ const Profile = () => {
           <UserPosts userPosts={userPosts} />
         </Tab>
       </Tabs>
+      <ToastContainer position="top-right" autoClose={5000} />
     </div>
   );
 };
