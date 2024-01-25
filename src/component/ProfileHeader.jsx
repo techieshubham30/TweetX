@@ -26,10 +26,7 @@ const ProfileHeader = () => {
         <>
           <div className="d-flex align-items-center gap-5">
             <Image
-              src={
-                userProfileData.profilePic ||
-                "https://pbs.twimg.com/profile_images/1592810849521266689/mOOLdO15_400x400.jpg"
-              }
+              src={userProfileData.profilePic}
               alt="Profile Avatar"
               roundedCircle
               style={{
