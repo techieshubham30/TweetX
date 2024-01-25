@@ -24,6 +24,10 @@ TweetX is a lightweight social media application designed for simplicity and eas
 
 - Follow other users.
 
+### Editing Profile
+
+- Users can edit their profile information, including profile picture and display name.
+
 ## Technologies Used
 
 ### Frontend
