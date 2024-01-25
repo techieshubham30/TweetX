@@ -18,6 +18,9 @@ import {
   where,
 } from "firebase/firestore";
 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import { getStorage } from "firebase/storage";
 
 export const FirebaseContext = createContext(null);
@@ -68,8 +71,8 @@ const FirebaseProvider = ({ children }) => {
       });
 
       localStorage.setItem("user-info", JSON.stringify(userDocRef));
+      toast.success("Signup successful!");
 
-      alert("Signup Successful");
       console.log("User added to Firestore with ID: ", userDocRef.id);
     } catch (error) {
       const errorCode = error.code;
@@ -102,9 +105,8 @@ const FirebaseProvider = ({ children }) => {
 
         // Save user information to localStorage
         localStorage.setItem("user-info", JSON.stringify(userData));
+        toast.success("Login successful!");
       }
-
-      alert("Login Successful");
 
       return userCredential;
     } catch (error) {
@@ -118,9 +120,9 @@ const FirebaseProvider = ({ children }) => {
   const logout = () => {
     signOut(auth)
       .then(() => {
-        alert("Logout Successful");
         setUser(null);
         localStorage.removeItem("user-info");
+        toast.success("Logout successful!");
       })
       .catch((error) => {
         console.error("Error during logout:", error);

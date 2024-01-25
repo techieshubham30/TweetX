@@ -13,6 +13,8 @@ import {
 
 import UserItem from "../../component/UserItem";
 import { handleFollowClick } from "../../utils/handleFollowClick";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const User = () => {
   const [users, setUsers] = useState([]);
@@ -64,6 +66,7 @@ const User = () => {
             />
           ))}
       </div>
+      <ToastContainer position="top-right" autoClose={5000} />
     </div>
   );
 };

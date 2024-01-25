@@ -9,6 +9,9 @@ import {
   where,
 } from "firebase/firestore";
 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 export const handleFollowClick = async (
   selectedUser,
   userProfileData,
@@ -59,8 +62,7 @@ export const handleFollowClick = async (
           followers: arrayRemove(currentUserId),
         });
       }
-
-      console.log(`Followed ${selectedUser.userName} successfully`);
+      toast.success(`You unfollowed ${selectedUser.userName}`);
     } else {
       console.log(isFollowing);
 
@@ -98,7 +100,7 @@ export const handleFollowClick = async (
         });
       }
 
-      console.log(`Followed ${selectedUser.userName} successfully`);
+      toast.success(`You followed ${selectedUser.userName}`);
     }
 
     setUserProfileData((prevData) => {
@@ -138,6 +140,6 @@ export const handleFollowClick = async (
     );
   } catch (error) {
     console.error("Error following user:", error);
-    // Handle errors or provide feedback to the user
+    toast.error("An error occurred. Please try again.");
   }
 };

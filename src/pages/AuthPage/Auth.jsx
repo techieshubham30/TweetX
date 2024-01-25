@@ -4,6 +4,9 @@ import { FirebaseContext } from "../../context/Firebase";
 import { useNavigate } from "react-router-dom";
 import "../.././commonStyle.css";
 
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,7 +32,6 @@ const Auth = () => {
       // If in login mode
       signinUserWithEmailAndPassword(email, password)
         .then((userCredential) => {
-          alert("Login Successfull");
           navigate("/home/profile");
         })
         .catch((error) => {
@@ -109,6 +111,7 @@ const Auth = () => {
           />
         </Col>
       </Row>
+      <ToastContainer position="top-right" autoClose={5000} />
     </Container>
   );
 };

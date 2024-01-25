@@ -9,7 +9,6 @@ const Navigation = () => {
   const handleLogout = () => {
     // Implement your logout logic here
     logout();
-    alert("User logged out");
   };
   return (
     <Navbar
