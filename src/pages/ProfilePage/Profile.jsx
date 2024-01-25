@@ -17,7 +17,8 @@ const Profile = () => {
   const [activeTab, setActiveTab] = useState("followers");
   const [userPosts, setUserPosts] = useState([]);
 
-  const { firestore, userProfileData } = useContext(FirebaseContext);
+  const { firestore, userProfileData, setUserProfileData } =
+    useContext(FirebaseContext);
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
@@ -29,7 +30,7 @@ const Profile = () => {
     };
 
     fetchData();
-  }, [firestore, userProfileData]);
+  }, [firestore, userProfileData, setUserProfileData]);
 
   return (
     <div className=" d-flex align-items-center flex-column">

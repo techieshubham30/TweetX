@@ -28,7 +28,7 @@ const Following = () => {
         // Query to get users whom the current user is following
         const followingQuery = query(
           usersCollection,
-          where("followers", "array-contains", userProfileData.uid)
+          where("followers", "array-contains", userProfileData?.uid)
         );
 
         const followingSnapshot = await getDocs(followingQuery);
@@ -39,15 +39,17 @@ const Following = () => {
         }));
 
         setUsers(fetchedFollowing);
+        setUserProfileData((prev) => ({
+          ...prev,
+          following: fetchedFollowing,
+        }));
       } catch (error) {
         console.error("Error fetching users:", error);
       }
     };
 
     fetchFollowing();
-  }, [userProfileData, firestore]);
-
-  console.log(users);
+  }, [userProfileData, firestore, setUserProfileData]);
 
   return (
     <div>

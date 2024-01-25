@@ -28,7 +28,7 @@ const Followers = () => {
         // Query to get users of the current user
         const followersQuery = query(
           usersCollection,
-          where("following", "array-contains", userProfileData.uid)
+          where("following", "array-contains", userProfileData?.uid)
         );
 
         const followersSnapshot = await getDocs(followersQuery);
@@ -45,9 +45,7 @@ const Followers = () => {
     };
 
     fetchFollowers();
-  }, [userProfileData, firestore]);
-
-  console.log(users);
+  }, [userProfileData, firestore, setUserProfileData]);
 
   return (
     <div>

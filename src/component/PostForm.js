@@ -17,8 +17,6 @@ const PostForm = ({ showModal, handleClose }) => {
   const { firestore, userProfileData, setUserProfileData } =
     useContext(FirebaseContext);
 
-  console.log(userProfileData);
-
   const handlePostTweet = async () => {
     try {
       //   Create a reference to the posts subcollection of the current user
@@ -34,8 +32,6 @@ const PostForm = ({ showModal, handleClose }) => {
         text: tweetText,
         createdAt: serverTimestamp(),
       });
-
-      console.log(newPostRef);
 
       // Update the current user's posts array
       const currentUserQuery = query(

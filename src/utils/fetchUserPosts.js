@@ -13,7 +13,6 @@ export const fetchUserPosts = async (
     );
 
     const userPostsSnapshot = await getDocs(userPostsQuery);
-    console.log(userPostsSnapshot);
 
     // Extracting the post data
     const userPostsData = userPostsSnapshot.docs.map((doc) => ({

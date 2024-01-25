@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FirebaseContext } from "../context/Firebase";
 import { Image, Button } from "react-bootstrap";
 import EditProfileForm from "./EditProfileForm";
@@ -18,7 +18,7 @@ const ProfileHeader = () => {
     setShowEditProfileModal(false);
   };
 
-  console.log(userProfileData);
+  useEffect(() => {}, [userProfileData]);
 
   return (
     <div className="profile-header-wrapper">

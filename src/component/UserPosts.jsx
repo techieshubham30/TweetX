@@ -4,8 +4,6 @@ import { FirebaseContext } from "../context/Firebase";
 import { fetchUserPosts } from "../utils/fetchUserPosts";
 
 const UserPosts = ({ userPosts, showAllPosts }) => {
-  console.log(userPosts);
-
   const { userProfileData } = useContext(FirebaseContext);
 
   if (!userProfileData) {
@@ -16,9 +14,6 @@ const UserPosts = ({ userPosts, showAllPosts }) => {
   const filteredPosts = showAllPosts
     ? userPosts
     : userPosts.filter((post) => post.uid === currentUserId);
-
-  console.log("filteredPosts", userPosts);
-  console.log("showAllPosts", showAllPosts);
 
   return (
     <Container>

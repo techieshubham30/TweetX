@@ -19,7 +19,6 @@ export const handleFollowClick = async (
   setUsers,
   firestore
 ) => {
-  console.log(selectedUser);
   try {
     const currentUserId = userProfileData.uid;
     // Check if the user is already being followed
@@ -64,8 +63,6 @@ export const handleFollowClick = async (
       }
       toast.success(`You unfollowed ${selectedUser.userName}`);
     } else {
-      console.log(isFollowing);
-
       // Find the document reference for the current user
       const currentUserQuery = query(
         usersCollection,

@@ -39,9 +39,7 @@ const User = () => {
     };
 
     fetchUsers();
-  }, []);
-
-  console.log(users);
+  }, [userProfileData, setUserProfileData]);
 
   const handleFollowUnfollow = (selectedUser) => {
     handleFollowClick(

@@ -14,8 +14,6 @@ const UserItem = ({ user, onFollowClick }) => {
     setIsFollowing(user.followers.includes(currentUserId));
   }, [user, userProfileData]);
 
-  console.log(user);
-
   return (
     <Card style={{ marginBottom: "20px", padding: "1rem" }}>
       <div

@@ -54,7 +54,6 @@ const FirebaseProvider = ({ children }) => {
         password
       );
       const newUser = userCredential.user;
-      console.log(newUser);
 
       // Add user data to Firestore
       const userCollection = collection(firestore, "users");
@@ -72,8 +71,6 @@ const FirebaseProvider = ({ children }) => {
 
       localStorage.setItem("user-info", JSON.stringify(userDocRef));
       toast.success("Signup successful!");
-
-      console.log("User added to Firestore with ID: ", userDocRef.id);
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
@@ -101,7 +98,6 @@ const FirebaseProvider = ({ children }) => {
       if (!userSnapshot.empty) {
         // Get the first document (should be only one matching UID)
         const userData = userSnapshot.docs[0].data();
-        console.log(userData);
 
         // Save user information to localStorage
         localStorage.setItem("user-info", JSON.stringify(userData));
@@ -131,7 +127,6 @@ const FirebaseProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      // console.log(user);
       setUser(user);
       if (user) {
         const userCollection = collection(firestore, "users");
@@ -141,7 +136,6 @@ const FirebaseProvider = ({ children }) => {
         if (!userSnapshot.empty) {
           userSnapshot.forEach((doc) => {
             const userData = doc.data();
-            // console.log(userData);
             setUserProfileData(userData); // Update userData state
           });
         }
