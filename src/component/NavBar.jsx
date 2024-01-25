@@ -17,7 +17,7 @@ const Navigation = () => {
       expand="lg"
       style={{ padding: "1rem", marginBottom: "4rem" }}
     >
-      <Navbar.Brand as={Link} to="/" className="brand">
+      <Navbar.Brand as={Link} to="feed" className="brand">
         Tweetx
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />

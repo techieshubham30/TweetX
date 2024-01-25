@@ -30,7 +30,7 @@ const Auth = () => {
       signinUserWithEmailAndPassword(email, password)
         .then((userCredential) => {
           alert("Login Successfull");
-          navigate("/home");
+          navigate("/home/profile");
         })
         .catch((error) => {
           const errorCode = error.code;
