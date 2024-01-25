@@ -56,5 +56,10 @@ TweetX is a lightweight social media application designed for simplicity and eas
 
 <img width="1440" alt="Screenshot 2024-01-25 at 5 17 51 PM" src="https://github.com/techieshubham30/tweetx/assets/82032825/dc96f35f-0796-4896-9b80-c18d6dedfad7">
 
+<img width="491" alt="Screenshot 2024-01-25 at 5 21 25 PM" src="https://github.com/techieshubham30/tweetx/assets/82032825/7984b269-ad3a-42e6-b0ce-c87d432c8f53">
+
+<img width="478" alt="Screenshot 2024-01-25 at 5 21 52 PM" src="https://github.com/techieshubham30/tweetx/assets/82032825/2299bf1f-6c1f-4fe6-b853-48b2f55243a3">
+
+<img width="545" alt="Screenshot 2024-01-25 at 5 22 12 PM" src="https://github.com/techieshubham30/tweetx/assets/82032825/b61a02e2-95fa-424a-95c9-50da5c5c90a9">
 
 
