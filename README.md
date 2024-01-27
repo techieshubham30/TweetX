@@ -14,7 +14,7 @@ TweetX is a lightweight social media application designed for simplicity and eas
 
 ### Personalized Feed
 
-- View your own list of posts in a dedicated feed.
+- Explore a personalized feed where you can view your own list of posts, as well as updates from users you follow.
 
 ### User Discovery
 
