@@ -1,62 +1,91 @@
-// import { collection, getDocs, where, orderBy, query } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  where,
+  orderBy,
+  query,
+  getDoc,
+  doc,
+} from "firebase/firestore";
 
-// export const fetchFollowedUsersPosts = async (
-//   firestore,
-//   userProfileData,
-//   setUserPosts
-// ) => {
-//   try {
-//     // Get the followed users
-//     const followedUsersCollection = collection(firestore, "users");
+export const fetchFollowedUsersPosts = async (
+  firestore,
+  userProfileData,
+  setUserPosts
+) => {
+  try {
+    const usersCollection = collection(firestore, "users");
 
-//     const followedUsersQuery = await getDocs(
-//       query(
-//         followedUsersCollection,
-//         where("followers", "array-contains", userProfileData.uid)
-//       )
-//     );
+    // Query to get users whom the current user is following
+    const followingQuery = query(
+      usersCollection,
+      where("followers", "array-contains", userProfileData?.uid)
+    );
 
-//     console.log("Followed Users Snapshot:", followedUsersQuery);
+    const followingSnapshot = await getDocs(followingQuery);
 
-//     if (!followedUsersQuery.empty) {
-//       // Array to store posts from followed users
-//       const followedUsersPosts = [];
+    const fetchedFollowing = followingSnapshot.docs.map((doc) => ({
+      userId: doc.id,
+      ...doc.data(),
+    }));
 
-//       for (const doc of followedUsersQuery.docs) {
-//         // Get the posts of each followed user
-//         const userPostsCollection = collection(
-//           firestore,
-//           "users",
-//           doc.id,
-//           "posts"
-//         );
-//         const userPostsQuery = query(
-//           userPostsCollection,
-//           orderBy("createdAt", "desc")
-//         );
-//         const userPostsSnapshot = await getDocs(userPostsQuery);
+    // console.log(fetchedFollowing);
+    // Get the list of users the current user is following
+    const followingList = userProfileData.following || [];
 
-//         console.log("User Posts Snapshot:", userPostsSnapshot);
+    // Array to store posts from followed users
+    const allPosts = [];
 
-//         // Extracting the post data
-//         const userPostsData = userPostsSnapshot.docs.map((postDoc) => ({
-//           postId: postDoc.id,
-//           uid: doc.id, // User ID of the followed user
-//           ...postDoc.data(),
-//         }));
+    // Iterate through the list of followed users
+    for (const followedUser of followingList) {
+      const followedUserId = followedUser.uid;
 
-//         // Concatenate posts from each followed user to the main array
-//         followedUsersPosts.push(...userPostsData);
-//       }
+      // Assume "posts" is a subcollection under each user document
+      const userPostsCollectionRef = collection(
+        firestore,
+        "users",
+        followedUserId,
+        "posts"
+      );
 
-//       // Sort the combined posts array by createdAt in descending order
-//       followedUsersPosts.sort((a, b) => b.createdAt - a.createdAt);
+      // Get all documents from the "posts" subcollection
+      const querySnapshot = await getDocs(userPostsCollectionRef);
 
-//       setUserPosts(followedUsersPosts);
-//     } else {
-//       console.log("No followed users found.");
-//     }
-//   } catch (error) {
-//     console.error("Error fetching followed users' posts:", error);
-//   }
-// };
+      // Extract post data from each document
+      //   const posts = querySnapshot.docs.map((doc) => doc.data());
+      const posts = querySnapshot.docs.map((doc) => {
+        const postData = doc.data();
+
+        // Find the corresponding user data from fetchedFollowing
+        const correspondingUser = fetchedFollowing.find(
+          (user) => user.uid === followedUserId
+        );
+
+        return {
+          createdAt: postData.createdAt.toDate(), // Convert Firestore Timestamp to JavaScript Date
+          postId: doc.id,
+          text: postData.text,
+          uid: correspondingUser.uid,
+          userName: correspondingUser.userName,
+          profilePic: correspondingUser.profilePic,
+        };
+      });
+
+      // Add posts to the array
+      allPosts.push(...posts);
+    }
+
+    setUserPosts((prevPosts) => {
+      const existingPostIds = prevPosts.map((post) => post.postId);
+      const newPosts = allPosts.filter(
+        (post) => !existingPostIds.includes(post.postId)
+      );
+      const orderedNewPosts = newPosts.sort(
+        (a, b) => b.createdAt - a.createdAt
+      );
+      return [...prevPosts, ...newPosts];
+    });
+  } catch (error) {
+    console.error("Error fetching followed users' posts:", error);
+  }
+};

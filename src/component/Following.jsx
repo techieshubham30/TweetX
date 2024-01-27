@@ -37,8 +37,8 @@ const Following = () => {
           userId: doc.id,
           ...doc.data(),
         }));
-
         setUsers(fetchedFollowing);
+
         setUserProfileData((prev) => ({
           ...prev,
           following: fetchedFollowing,

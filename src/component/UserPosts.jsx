@@ -15,6 +15,8 @@ const UserPosts = ({ userPosts, showAllPosts }) => {
     ? userPosts
     : userPosts.filter((post) => post.uid === currentUserId);
 
+  // console.log(filteredPosts);
+
   return (
     <Container>
       <Row className="mt-4">
@@ -25,12 +27,8 @@ const UserPosts = ({ userPosts, showAllPosts }) => {
               {showAllPosts ? "Start exploring!" : "Start posting!"}
             </p>
           ) : (
-            filteredPosts.map((post) => (
-              <Card
-                key={post.postId}
-                className="mb-3"
-                style={{ width: "100%" }}
-              >
+            filteredPosts.map((post, index) => (
+              <Card key={index} className="mb-3" style={{ width: "100%" }}>
                 <Card.Body>
                   <Col>
                     <div
@@ -38,7 +36,7 @@ const UserPosts = ({ userPosts, showAllPosts }) => {
                       style={{ marginBottom: "0.5rem" }}
                     >
                       <img
-                        src={userProfileData.profilePic}
+                        src={post.profilePic}
                         alt="Profile Pic"
                         style={{
                           width: "50px",
@@ -46,7 +44,16 @@ const UserPosts = ({ userPosts, showAllPosts }) => {
                           borderRadius: "50%",
                         }}
                       />
-                      <Card.Title>{userProfileData.userName}</Card.Title>
+                      <Card.Title>{post.userName}</Card.Title>
+
+                      <small className="text-muted">
+                        {post.createdAt instanceof Date
+                          ? post.createdAt.toLocaleString()
+                          : new Date(
+                              post.createdAt.seconds * 1000 +
+                                post.createdAt.nanoseconds / 1000000
+                            ).toLocaleString()}
+                      </small>
                     </div>
                   </Col>
                   <Col>

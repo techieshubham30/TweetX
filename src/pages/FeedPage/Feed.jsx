@@ -79,7 +79,7 @@ const Feed = () => {
   const [userPosts, setUserPosts] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
-  const showAllPosts = false;
+  const showAllPosts = true;
 
   // Function to open the modal
   const handleShowModal = () => {
@@ -94,7 +94,7 @@ const Feed = () => {
   useEffect(() => {
     const fetchData = async () => {
       await fetchUserPosts(firestore, userProfileData, setUserPosts);
-      //   await fetchFollowedUsersPosts(firestore, userProfileData, setUserPosts);
+      await fetchFollowedUsersPosts(firestore, userProfileData, setUserPosts);
     };
 
     fetchData();
